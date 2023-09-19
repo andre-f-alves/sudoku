@@ -8,14 +8,14 @@
 }
 
 html, body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 100vw;
   height: 100vh;
-  background-image: radial-gradient(#0f0f0f, black);
-  color: white;
+}
+
+header {
+  width: 100vw;
+  height: 90px;
+  padding: 10px;
 }
 
 h1 {
@@ -23,27 +23,42 @@ h1 {
   font-family: cursive;
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 90px);
+}
+
 .board {
+  width: max-content;
   border-collapse: collapse;
 }
 
 .cell {
-  width: 50px;
-  height: 50px;
-  border: 1px solid white;
+  width: 55px;
+  height: 55px;
+  border: 1px solid black;
 }
 
 input[type="number"] {
   width: 100%;
   height: 100%;
-  padding: 0px 35%;
   border: none;
   font-size: 1.5em;
+  text-align: center;
   background-color: transparent;
-  color: white;
+  color: black;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   display: none;
+}
+
+input[type="number"]:focus-visible {
+  outline: 2px solid black;
+  outline-offset: -1px;
+  border-radius: 3px;
 }
