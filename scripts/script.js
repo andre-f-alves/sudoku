@@ -14,7 +14,18 @@
         max: 9,
       })
 
+      input.addEventListener('input', event => checkValue(event.target))
+
       cell.classList.add('cell')
+
+      if (i !== 0 && i % 3 === 0) {
+        cell.classList.add('top-division')
+      }
+
+      if (j !== 0 && j % 3 === 0) {
+        cell.classList.add('left-division')
+      }
+
       cell.appendChild(input)
       row.appendChild(cell)
     }
@@ -29,37 +40,35 @@ function createInput(attributes) {
   return input
 }
 
-const htmlInputs = document.querySelectorAll('input[type="number"]')
-const inputs = [...htmlInputs]
+function checkValue(inputElement) {
+  const [ row, col ] = inputElement.getAttribute('id').split(';')
+  const number = inputElement.value
 
-inputs.forEach(input => {
-  input.addEventListener('input', event => {
-    const [ row, col ] = event.target.getAttribute('id').split(';')
-    const number = event.target.value
+  const blockRow = Math.floor(row / 3) * 3
+  const blockCol = Math.floor(col / 3) * 3
 
-    const blockRow = Math.floor(row / 3) * 3
-    const blockCol = Math.floor(col / 3) * 3
+  inputElement.classList.remove('not-unique')
 
-    if (!isValid(number)) {
-      event.target.value = ''
-      return
-    }
+  if (!isValid(number)) {
+    inputElement.value = ''
+    return
+  }
 
-    if (!isUniqueInRow(row, number, col) || !isUniqueInColumn(col, number, row)) {
-      event.target.style.backgroundColor = 'red'
-      return
-    }
-    
-    if (!isUniqueInBlock(blockRow, blockCol, row, col, number)) {
-      event.target.style.backgroundColor = 'red'
-      return
-    }
-  })
-})
+  if (
+    !isUniqueInRow(row, number, col) ||
+    !isUniqueInColumn(col, number, row)
+  ) {
+    inputElement.classList.toggle('not-unique')
+    return
+  }
+
+  if (!isUniqueInBlock(blockRow, blockCol, row, col, number)) {
+    inputElement.classList.toggle('not-unique')
+  }
+}
 
 function isValid(value) {
-  if (value.match(/^[0-9]$/)) return true
-  return false
+  return /^[0-9]$/.test(value)
 }
 
 function isUniqueInRow(row, value, currentCol) {
@@ -89,7 +98,13 @@ function isUniqueInBlock(blockRow, blockCol, currentRow, currentCol, value) {
     for (let col = 0; col < 3; col++) {
       const input = document.getElementById(`${blockRow + row};${blockCol + col}`)
 
-      if ((blockRow + row !== parseInt(currentRow) || blockCol + col !== parseInt(currentCol)) && input.value === value) {
+      if (
+        (
+          blockRow + row !== parseInt(currentRow) ||
+          blockCol + col !== parseInt(currentCol)
+        ) &&
+        input.value === value
+      ) {
         return false
       }
     }

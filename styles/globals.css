@@ -34,12 +34,21 @@ main {
 .board {
   width: max-content;
   border-collapse: collapse;
+  border: 2px solid black;
 }
 
 .cell {
   width: 55px;
   height: 55px;
   border: 1px solid black;
+}
+
+.cell.top-division {
+  border-top: 2px solid black;
+}
+
+.cell.left-division {
+  border-left: 2px solid black;
 }
 
 input[type="number"] {
@@ -61,4 +70,8 @@ input[type="number"]:focus-visible {
   outline: 2px solid black;
   outline-offset: -1px;
   border-radius: 3px;
+}
+
+input[type="number"].not-unique {
+  background-color: #ff00006e;
 }
