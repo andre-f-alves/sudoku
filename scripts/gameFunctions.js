@@ -8,9 +8,8 @@ function createSudokuBoard() {
       const cell = document.createElement('td')
 
       if (j !== 0 && j % 3 === 0) {
-        const divisionLine = document.createElement('div')
+        const divisionLine = row.appendChild(document.createElement('div'))
         divisionLine.style.width = 0
-        row.appendChild(divisionLine)
       }
 
       row.appendChild(cell)
@@ -53,6 +52,7 @@ function isUniqueInColumn(col, value, currentRow) {
 
 function isUniqueInBlock(blockRow, blockCol, currentRow, currentCol, value) {
   for (let row = 0; row < 3; row++) {
+    
     for (let col = 0; col < 3; col++) {
       const input = document.getElementById(`${blockRow + row};${blockCol + col}`)
 

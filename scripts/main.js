@@ -4,7 +4,12 @@ import {
   isUniqueInRow,
   isUniqueInColumn,
   isUniqueInBlock
-} from './game-functions.js'
+} from './gameFunctions.js'
+
+import {
+  createInput,
+  createKeyboard
+} from './auxiliaryFeatures.js'
 
 (() => {
   const boardContainer = document.querySelector('.board-container')
@@ -16,30 +21,25 @@ import {
     const cells = [ ...row.cells ]
 
     cells.forEach((cell, cellIndex) => {
+      const coordinates = `${rowIndex};${cellIndex}`
 
-      cell.appendChild(createInput({
+      const input = cell.appendChild(createInput({
         type: 'number',
-        name: `${rowIndex};${cellIndex}`,
-        id: `${rowIndex};${cellIndex}`,
-        title: `Campo (${rowIndex};${cellIndex})`,
+        name: coordinates,
+        id: coordinates,
+        title: `Campo (${coordinates})`,
         min: 1,
         max: 9,
-      }, 'input', checkValue))
+      }))
+
+      input.addEventListener('input', event => checkValue(event.target))
 
     })
   })
+
+  const keyboardContainer = document.querySelector('.keyboard-container')
+  keyboardContainer.appendChild(createKeyboard())
 })()
-
-function createInput(attrs, eventType, eventListenerCallback) {
-  const input = document.createElement('input')
-  Object.entries(attrs).forEach(([ attr, value ]) => input.setAttribute(attr, value))
-
-  if (eventType && eventListenerCallback) {
-    input.addEventListener(eventType, event => eventListenerCallback(event.target))
-  }
-
-  return input
-}
 
 function checkValue(inputElement) {
   const [ row, col ] = inputElement.getAttribute('id').split(';')
