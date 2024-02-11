@@ -7,8 +7,19 @@ function createSudokuBoard() {
     for (let j = 0; j < 9; j++) {
       const cell = document.createElement('td')
 
+      if (j !== 0 && j % 3 === 0) {
+        const divisionLine = document.createElement('div')
+        divisionLine.style.width = 0
+        row.appendChild(divisionLine)
+      }
+
       row.appendChild(cell)
     }
+
+    if (i !== 0 && i % 3 === 0) {
+      board.appendChild(document.createElement('div'))
+    }
+
     board.appendChild(row)
   }
   return board

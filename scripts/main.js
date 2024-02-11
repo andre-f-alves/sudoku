@@ -8,18 +8,24 @@ import {
 
 (() => {
   const boardContainer = document.querySelector('.board-container')
-
   const board = boardContainer.appendChild(createSudokuBoard())
 
-  board.childNodes.forEach((row, rowIndex) => {
-    row.childNodes.forEach((cell, cellIndex) => {
+  const rows = [ ...board.rows ]
+
+  rows.forEach((row, rowIndex) => {
+    const cells = [ ...row.cells ]
+
+    cells.forEach((cell, cellIndex) => {
+
       cell.appendChild(createInput({
         type: 'number',
         name: `${rowIndex};${cellIndex}`,
         id: `${rowIndex};${cellIndex}`,
+        title: `Campo (${rowIndex};${cellIndex})`,
         min: 1,
         max: 9,
       }, 'input', checkValue))
+
     })
   })
 })()
